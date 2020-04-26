@@ -4,7 +4,7 @@ import os
 from os.path import expanduser
 from github import Github
 
-# @TODO Add  option to create a private repository and a readme file
+# TODO Automatically init the in the current directory and make the first commit  
 def main():
     parser = optparse.OptionParser()
     parser.add_option('--name', '-n', default="")
@@ -14,11 +14,12 @@ def main():
     # so options: name. We can get the value this way. options.name and options.desc. 
     # And then we args. The list of values that we're not parsed over.
     if options.name != "":
-        create_rep(options.name, options.desc)
+        is_private = ask_is_private(options.name) 
+        create_rep(options.name, options.desc, is_private)
     else:
         print ('Please specify the name of the rep')
 
-def create_rep(name, desc):
+def create_rep(name, desc, is_private):
     home = expanduser("~") # we shoud set a home var to make sure it will work everywhere
     os.chdir(home) # make sure we are in the home dir to get the file
     with open(".autorep", "r") as f:
@@ -26,7 +27,17 @@ def create_rep(name, desc):
 
     g = Github(key) 
     user = g.get_user() 
-    user.create_repo(name, desc)
+    user.create_repo
+    print("Name: " + name + " " + "Descr: " + desc) 
+    user.create_repo(name, desc, private=is_private)
+   
+
+def ask_is_private(name):
+    answer = input("Is %s private? y/n " % name) 
+    if(answer == "y" or answer == "Y"):
+        return True
+    else:
+        return False
 
 main()
 
