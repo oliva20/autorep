@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+import optparse
+import os
+from os.path import expanduser
+from github import Github
+
+# @TODO Add  option to create a private repository and a readme file
+def main():
+    parser = optparse.OptionParser()
+    parser.add_option('--name', '-n', default="")
+    parser.add_option('--desc', '-d', default="Created with automation tool  create by @oliva20") 
+    (options, args) = parser.parse_args() 
+    # parse-arges returns two values. options and args.
+    # so options: name. We can get the value this way. options.name and options.desc. 
+    # And then we args. The list of values that we're not parsed over.
+    if options.name != "":
+        create_rep(options.name, options.desc)
+    else:
+        print ('Please specify the name of the rep')
+
+def create_rep(name, desc):
+    home = expanduser("~") # we shoud set a home var to make sure it will work everywhere
+    os.chdir(home) # make sure we are in the home dir to get the file
+    with open(".autorep", "r") as f:
+            key = f.readline().rstrip('\n') # remove the end lien 
+
+    g = Github(key) 
+    user = g.get_user() 
+    user.create_repo(name, desc)
+
+main()
+
+
+
+
+
