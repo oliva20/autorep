@@ -6,13 +6,12 @@ from github import Github
 
 # TODO Automatically init the in the current directory and make the first commit  
 def main():
+    # check if the file with token exists in home dir
+    is_file_created()
     parser = optparse.OptionParser()
     parser.add_option('--name', '-n', default="")
     parser.add_option('--desc', '-d', default="Created with automation tool  create by @oliva20") 
     (options, args) = parser.parse_args() 
-    # parse-arges returns two values. options and args.
-    # so options: name. We can get the value this way. options.name and options.desc. 
-    # And then we args. The list of values that we're not parsed over.
     if options.name != "":
         is_private = ask_is_private(options.name) 
         create_rep(options.name, options.desc, is_private)
@@ -23,13 +22,12 @@ def create_rep(name, desc, is_private):
     home = expanduser("~") # we shoud set a home var to make sure it will work everywhere
     os.chdir(home) # make sure we are in the home dir to get the file
     with open(".autorep", "r") as f:
-            key = f.readline().rstrip('\n') # remove the end lien 
+            key = f.readline().rstrip('\n') # remove the end line 
 
     g = Github(key) 
     user = g.get_user() 
-    user.create_repo
     print("Name: " + name + " " + "Descr: " + desc) 
-    user.create_repo(name, desc, private=is_private)
+#    user.create_repo(name, desc, private=is_private)
    
 
 def ask_is_private(name):
@@ -39,9 +37,21 @@ def ask_is_private(name):
     else:
         return False
 
+# checks for the file in home directory which contains the token.
+def is_file_created():
+    home = expanduser("~") 
+    os.chdir(home) # make sure we are in the home dir 
+    if(os.path.isfile(".test")):
+        return true
+
+        # here we should check wether it has a token or not
+    else:
+        print("Generating dotfile in home directory") 
+        file = open(".test", "w")
+        file.write("<token here>") 
+        file.close()
+        print("Make sure to place your token on the first line of '.autorep'") 
+        raise SystemExit # quit the program
+
 main()
-
-
-
-
 
