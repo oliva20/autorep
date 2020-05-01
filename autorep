@@ -16,7 +16,7 @@ def main():
         is_private = ask_is_private(options.name) 
         create_rep(options.name, options.desc, is_private)
     else:
-        print ('Please specify the name of the rep')
+        print('Please specify the name of the rep')
 
 def create_rep(name, desc, is_private):
     home = expanduser("~") # we shoud set a home var to make sure it will work everywhere
@@ -27,8 +27,7 @@ def create_rep(name, desc, is_private):
     g = Github(key) 
     user = g.get_user() 
     print("Name: " + name + " " + "Descr: " + desc) 
-#    user.create_repo(name, desc, private=is_private)
-   
+    user.create_repo(name, desc, private=is_private)
 
 def ask_is_private(name):
     answer = input("Is %s private? y/n " % name) 
@@ -41,17 +40,19 @@ def ask_is_private(name):
 def is_file_created():
     home = expanduser("~") 
     os.chdir(home) # make sure we are in the home dir 
-    if(os.path.isfile(".test")):
+    if(os.path.isfile(".autorep")):
         return true
-
-        # here we should check wether it has a token or not
     else:
         print("Generating dotfile in home directory") 
-        file = open(".test", "w")
-        file.write("<token here>") 
+        file = open(".autorep", "w")
+        file.write("<place your token  here>") 
         file.close()
         print("Make sure to place your token on the first line of '.autorep'") 
         raise SystemExit # quit the program
 
-main()
+# we need to make the initial commit 
+def initial_commit():
+     
 
+
+main()
