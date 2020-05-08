@@ -16,7 +16,7 @@ def main():
         is_private = ask_is_private(options.name) 
         create_rep(options.name, options.desc, is_private)
     else:
-        print('Please specify the name of the rep')
+        print('Please specify the name for the repository.')
 
 def create_rep(name, desc, is_private):
     home = expanduser("~") # we shoud set a home var to make sure it will work everywhere
